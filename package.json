@@ -1,0 +1,23 @@
+{
+  "name": "wdp",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "bin": {
+    "wdp": "dist/index.js"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc ./src/index.tsx --outDir ./dist --watch",
+    "build": "tsc ./src/index.tsx --outDir ./dist"
+  },
+  "devDependencies": {
+    "@types/blessed": "^0.1.5",
+    "global": "^4.3.2",
+    "typescript": "^2.4.2"
+  },
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.5",
+    "node-fetch": "^1.7.1"
+  }
+}
