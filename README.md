@@ -2,14 +2,14 @@
 Waddup is a tool to get an aggregated developer news feed to the command line so it's available as a quick 5min update during your day.
 
 ## Installation
-`λ ~/ yarn add --global wdp`
+`yarn add --global wdp`
 
 or
 
-`λ ~/ npm i -g wdp`
+`npm i -g wdp`
 
 ## Usage
-`λ ~/ wdp`
+`wdp`
 
 Scroll through the boxes to find an item you want to read, click to select / open.
 
