@@ -13,6 +13,8 @@ or
 
 Scroll through the boxes to find an item you want to read, click to select / open.
 
+<img width="1243" alt="screen shot 2017-08-17 at 2 52 50 pm" src="https://user-images.githubusercontent.com/207421/29414464-0e4e3af6-8360-11e7-9b91-4562b3c03aeb.png">
+
 ## Things I'm working on
 
 * Faster initial render, the HTTP requests clog up the pipe. Stagger the requests so that first paint can come as soon as first request is done
