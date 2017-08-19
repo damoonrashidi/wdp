@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,54 +39,74 @@ exports.__esModule = true;
 var blessed = require("blessed");
 var screen = blessed.screen({ smartCSR: true });
 screen.title = "Waddup!?";
-var threads_1 = require("threads");
+var contrib = require("blessed-contrib");
+var cp = require("child_process");
 var news_service_1 = require("./services/news.service");
 var _1 = require("./boxes/");
+var crypto;
 var ns = new news_service_1.NewsService();
 var boxes = [
-    {
-        name: 'reddit',
-        box: _1.redditBox,
-        data: ns.reddit
-    },
+    { name: 'reddit', box: _1.redditBox, data: ns.reddit },
+    { name: 'hackernews', box: _1.hnBox, data: ns.hackerNews },
+    { name: 'tech', box: _1.techBox, data: ns.tech },
+    { name: 'news', box: _1.newsBox, data: ns.news },
 ];
-var _loop_1 = function (box) {
-    screen.append(box.box);
-    var thread = threads_1.spawn(function (data, done) {
-        data().then(function (d) { return done(d); });
-    });
-    thread.send(box.data);
-    thread.on('message', function (items) {
-        console.log("got items", items);
-        renderBox(items, box.box);
-        thread.kill();
-    });
-};
-for (var _i = 0, boxes_1 = boxes; _i < boxes_1.length; _i++) {
-    var box = boxes_1[_i];
-    _loop_1(box);
-}
 function initialRender() {
     return __awaiter(this, void 0, void 0, function () {
+        var _loop_1, _i, boxes_1, box, line;
         return __generator(this, function (_a) {
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    _loop_1 = function (box) {
+                        screen.append(box.box);
+                        box.data().then(function (d) {
+                            renderBox(d, box.box, box.name);
+                        });
+                    };
+                    for (_i = 0, boxes_1 = boxes; _i < boxes_1.length; _i++) {
+                        box = boxes_1[_i];
+                        _loop_1(box);
+                    }
+                    return [4 /*yield*/, ns.crypto()];
+                case 1:
+                    crypto = _a.sent();
+                    line = contrib.line(crypto);
+                    renderGraph(_1.cryptoGraph);
+                    return [2 /*return*/];
+            }
         });
     });
 }
-function renderBox(items, box) {
+function renderBox(items, box, name) {
     var list = blessed.list({
         items: items.map(function (article) { return article.title; }),
         mouse: true,
         style: {
             selected: { bg: "#0f0", fg: "#000" }
+        },
+        name: name
+    });
+    list.on('select', function (item) {
+        var article = items[list.getItemIndex(item)];
+        try {
+            cp.exec("open -a \"Google Chrome\" " + article.url);
+        }
+        catch (e) {
+            /**
+             * Could not get url for this list item.. weird..
+             */
         }
     });
-    screen.render();
     box.append(list);
     screen.render();
 }
 function renderGraph(line) {
     screen.append(line);
+    line.style = {
+        left: '50%',
+        height: '50%',
+        top: '50%'
+    };
     line.setData(crypto);
     screen.render();
 }
