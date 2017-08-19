@@ -1,6 +1,6 @@
 {
   "name": "wdp",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "bin": {
     "wdp": "dist/index.js"
