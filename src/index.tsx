@@ -29,18 +29,20 @@ for (let b of boxes) {
   b.box.on('focus', () => screen.render());
 }
 
-async function initialRender () {
-  news = await ns.getArticles('news');
-  tech = await ns.getArticles('tech');
-  reddit = await ns.reddit();
-  hn = await ns.hackerNews();
-  crypto = await ns.crypto();
+function initialRender () {
+  ns.getArticles('news')
+    .then(news => renderBox(news, boxes.filter(b => b.name === 'news')[0].box));
   
-  renderBox(news, boxes.filter(b => b.name === 'news')[0].box);
-  renderBox(tech, boxes.filter(b => b.name === 'tech')[0].box);
-  renderBox(reddit, boxes.filter(b => b.name === 'reddit')[0].box);
-  renderBox(hn, boxes.filter(b => b.name === 'hn')[0].box);
-  renderGraph(cryptoGraph)
+  ns.getArticles('tech')
+    .then(tech => renderBox(tech, boxes.filter(b => b.name === 'tech')[0].box));
+  
+  ns.reddit()
+    .then(reddit => renderBox(reddit, boxes.filter(b => b.name === 'reddit')[0].box));
+  
+  ns.hackerNews()
+    .then(hn => renderBox(hn, boxes.filter(b => b.name === 'hn')[0].box));
+  
+  ns.crypto().then(cryptoGraph => renderGraph(cryptoGraph));
 }
 
 function renderBox(items: any[], box: blessed.Widgets.BoxElement) {
