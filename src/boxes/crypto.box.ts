@@ -1,6 +1,6 @@
 import * as contrib from 'blessed-contrib';
 
-const cryptoGraph = contrib.line({
+export const cryptoGraph = contrib.line({
   style: {
     line: "yellow",
     text: "green",
@@ -14,5 +14,3 @@ const cryptoGraph = contrib.line({
   height: '50%',
   label: 'ETH in USD'
 });
-
-export default cryptoGraph;

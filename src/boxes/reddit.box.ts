@@ -1,6 +1,6 @@
 import * as blessed from 'blessed';
 
-export default blessed.box({
+export const redditBox = blessed.box({
   name: 'reddit',
   top: '0',
   left: '0',

@@ -55,10 +55,10 @@ export class NewsService {
   }
 
   async crypto (): Promise<Crypto> {
-    let res = await (await(fetch(this.ccAPI))).json();
+    let res = await (await fetch(this.ccAPI)).json();
     return {
       title: 'ETH',
-      x: res.Data.map(btc => new Date(btc.time * 1000)),
+      x: res.Data.map(btc => new Date(btc.time * 1000).toTimeString().substr(0,8)),
       y: res.Data.map(btc => btc.close),
     };
   }

@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var contrib = require("blessed-contrib");
-var cryptoGraph = contrib.line({
+exports.cryptoGraph = contrib.line({
     style: {
         line: "yellow",
         text: "green",
@@ -15,4 +15,3 @@ var cryptoGraph = contrib.line({
     height: '50%',
     label: 'ETH in USD'
 });
-exports["default"] = cryptoGraph;

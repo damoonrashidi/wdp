@@ -1,6 +1,6 @@
 import * as blessed from 'blessed';
 
-let box = blessed.box({
+export const techBox = blessed.box({
   name: 'tech',
   top: '75%',
   left: '0',
@@ -18,5 +18,3 @@ let box = blessed.box({
     focus: {border: {fg: '#f00'}},
   }
 });
-
-export default box;

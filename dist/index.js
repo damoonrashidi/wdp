@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,82 +36,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var blessed = require("blessed");
-var cp = require("child_process");
-var news_service_1 = require("./services/news.service");
-var ns = new news_service_1.NewsService();
-var news, tech, reddit, hn, crypto;
 var screen = blessed.screen({ smartCSR: true });
 screen.title = "Waddup!?";
-//import boxes after screen is set up, otherwise blessed throws an error
-var reddit_box_1 = require("./boxes/reddit.box");
-var hackernews_box_1 = require("./boxes/hackernews.box");
-var news_box_1 = require("./boxes/news.box");
-var tech_box_1 = require("./boxes/tech.box");
-var crypto_box_1 = require("./boxes/crypto.box");
+var threads_1 = require("threads");
+var news_service_1 = require("./services/news.service");
+var _1 = require("./boxes/");
+var ns = new news_service_1.NewsService();
 var boxes = [
-    { name: 'reddit', box: reddit_box_1["default"], url: 'https://www.reddit.com/user/tehRash/m/work' },
-    { name: 'hn', box: hackernews_box_1["default"], url: 'https://news.ycombinator.com' },
-    { name: 'news', box: news_box_1["default"], url: 'http://www.aljazeera.com/news/' },
-    { name: 'tech', box: tech_box_1["default"], url: 'https://thenextweb.com' },
+    {
+        name: 'reddit',
+        box: _1.redditBox,
+        data: ns.reddit
+    },
 ];
-var currentlyFocusedBox = 0;
-boxes[0].box.focus();
+var _loop_1 = function (box) {
+    screen.append(box.box);
+    var thread = threads_1.spawn(function (data, done) {
+        data().then(function (d) { return done(d); });
+    });
+    thread.send(box.data);
+    thread.on('message', function (items) {
+        console.log("got items", items);
+        renderBox(items, box.box);
+        thread.kill();
+    });
+};
 for (var _i = 0, boxes_1 = boxes; _i < boxes_1.length; _i++) {
-    var b = boxes_1[_i];
-    screen.append(b.box);
-    b.box.on('focus', function () { return screen.render(); });
+    var box = boxes_1[_i];
+    _loop_1(box);
 }
 function initialRender() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, ns.getArticles('news')];
-                case 1:
-                    news = _a.sent();
-                    return [4 /*yield*/, ns.getArticles('tech')];
-                case 2:
-                    tech = _a.sent();
-                    return [4 /*yield*/, ns.reddit()];
-                case 3:
-                    reddit = _a.sent();
-                    return [4 /*yield*/, ns.hackerNews()];
-                case 4:
-                    hn = _a.sent();
-                    return [4 /*yield*/, ns.crypto()];
-                case 5:
-                    crypto = _a.sent();
-                    renderBox(news, boxes.filter(function (b) { return b.name === 'news'; })[0].box);
-                    renderBox(tech, boxes.filter(function (b) { return b.name === 'tech'; })[0].box);
-                    renderBox(reddit, boxes.filter(function (b) { return b.name === 'reddit'; })[0].box);
-                    renderBox(hn, boxes.filter(function (b) { return b.name === 'hn'; })[0].box);
-                    renderGraph(crypto_box_1["default"]);
-                    return [2 /*return*/];
-            }
+            return [2 /*return*/];
         });
     });
 }
 function renderBox(items, box) {
     var list = blessed.list({
-        items: items.map(function (article) { return "" + article.title; }),
+        items: items.map(function (article) { return article.title; }),
         mouse: true,
         style: {
             selected: { bg: "#0f0", fg: "#000" }
         }
     });
-    list.on('select', function (item) {
-        try {
-            var index = list.getItemIndex(item);
-            var url = {
-                'reddit': reddit[index].url,
-                'news': news[index].url,
-                'tech': tech[index].url,
-                'hn': hn[index].url
-            }[list.parent.options.name];
-            cp.exec("open -a \"Google Chrome\" " + url);
-        }
-        catch (e) {
-        }
-    });
+    screen.render();
     box.append(list);
     screen.render();
 }
@@ -122,16 +90,5 @@ function renderGraph(line) {
     screen.render();
 }
 screen.key(['escape', 'q', 'C-c'], function () { return process.exit(0); });
-screen.key(['n'], function () {
-    currentlyFocusedBox = Math.min(currentlyFocusedBox + 1, boxes.length - 1);
-    boxes[currentlyFocusedBox].box.focus();
-});
-screen.key(['p'], function () {
-    currentlyFocusedBox = Math.max(currentlyFocusedBox - 1, 0);
-    boxes[currentlyFocusedBox].box.focus();
-});
-screen.key(['o'], function () {
-    cp.exec("open -a \"Google Chrome\" " + boxes[currentlyFocusedBox].url);
-});
 screen.render();
 initialRender();

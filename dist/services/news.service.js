@@ -118,13 +118,13 @@ var NewsService = (function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (node_fetch_1["default"](this.ccAPI))];
+                    case 0: return [4 /*yield*/, node_fetch_1["default"](this.ccAPI)];
                     case 1: return [4 /*yield*/, (_a.sent()).json()];
                     case 2:
                         res = _a.sent();
                         return [2 /*return*/, {
                                 title: 'ETH',
-                                x: res.Data.map(function (btc) { return new Date(btc.time * 1000); }),
+                                x: res.Data.map(function (btc) { return new Date(btc.time * 1000).toTimeString().substr(0, 8); }),
                                 y: res.Data.map(function (btc) { return btc.close; })
                             }];
                 }
