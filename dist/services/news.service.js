@@ -36,51 +36,64 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var node_fetch_1 = require("node-fetch");
+function getArticles(type) {
+    return __awaiter(this, void 0, void 0, function () {
+        var newsAPI, techAPI, req, _a, data;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    newsAPI = "https://newsapi.org/v1/articles?source=al-jazeera-english&sortBy=top&apiKey=ee582714b32645c8a48b8601e7267063";
+                    techAPI = "https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=ee582714b32645c8a48b8601e7267063";
+                    if (!(type === 'news')) return [3 /*break*/, 2];
+                    return [4 /*yield*/, node_fetch_1["default"](newsAPI)];
+                case 1:
+                    _a = _b.sent();
+                    return [3 /*break*/, 4];
+                case 2: return [4 /*yield*/, node_fetch_1["default"](techAPI)];
+                case 3:
+                    _a = _b.sent();
+                    _b.label = 4;
+                case 4:
+                    req = _a;
+                    return [4 /*yield*/, req.json()];
+                case 5: return [4 /*yield*/, (_b.sent())];
+                case 6:
+                    data = _b.sent();
+                    return [2 /*return*/, data.articles.map(function (article) { return ({
+                            title: article.title,
+                            description: article.description,
+                            author: article.author,
+                            url: article.url
+                        }); })];
+            }
+        });
+    });
+}
 var NewsService = (function () {
     function NewsService() {
-        this.techAPI = "https://newsapi.org/v1/articles?source=the-next-web&sortBy=latest&apiKey=ee582714b32645c8a48b8601e7267063";
-        this.newsAPI = "https://newsapi.org/v1/articles?source=al-jazeera-english&sortBy=top&apiKey=ee582714b32645c8a48b8601e7267063";
-        this.hnAPI = "https://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=points%3E100";
-        this.redditAPI = "https://www.reddit.com/user/tehRash/m/work.json";
-        this.ccAPI = "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=60&aggregate=3&e=CCCAGG";
     }
-    NewsService.prototype.getArticles = function (type) {
+    NewsService.prototype.tech = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var req, _a, data;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        if (!(type === 'news')) return [3 /*break*/, 2];
-                        return [4 /*yield*/, node_fetch_1["default"](this.newsAPI)];
-                    case 1:
-                        _a = _b.sent();
-                        return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, node_fetch_1["default"](this.techAPI)];
-                    case 3:
-                        _a = _b.sent();
-                        _b.label = 4;
-                    case 4:
-                        req = _a;
-                        return [4 /*yield*/, req.json()];
-                    case 5: return [4 /*yield*/, (_b.sent())];
-                    case 6:
-                        data = _b.sent();
-                        return [2 /*return*/, data.articles.map(function (article) { return ({
-                                title: article.title,
-                                description: article.description,
-                                author: article.author,
-                                url: article.url
-                            }); })];
-                }
+            return __generator(this, function (_a) {
+                return [2 /*return*/, getArticles('tech')];
+            });
+        });
+    };
+    NewsService.prototype.news = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, getArticles('news')];
             });
         });
     };
     NewsService.prototype.hackerNews = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var data;
+            var hnAPI, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, node_fetch_1["default"](this.hnAPI)];
+                    case 0:
+                        hnAPI = "https://hn.algolia.com/api/v1/search_by_date?tags=story&numericFilters=points%3E100";
+                        return [4 /*yield*/, node_fetch_1["default"](hnAPI)];
                     case 1: return [4 /*yield*/, (_a.sent()).json()];
                     case 2:
                         data = _a.sent();
@@ -96,10 +109,12 @@ var NewsService = (function () {
     };
     NewsService.prototype.reddit = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var redditAPI, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, node_fetch_1["default"](this.redditAPI)];
+                    case 0:
+                        redditAPI = "https://www.reddit.com/user/tehRash/m/work.json";
+                        return [4 /*yield*/, node_fetch_1["default"](redditAPI)];
                     case 1: return [4 /*yield*/, (_a.sent()).json()];
                     case 2:
                         res = _a.sent();
@@ -115,16 +130,18 @@ var NewsService = (function () {
     };
     NewsService.prototype.crypto = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
+            var ccAPI, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (node_fetch_1["default"](this.ccAPI))];
+                    case 0:
+                        ccAPI = "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=60&aggregate=3&e=CCCAGG";
+                        return [4 /*yield*/, node_fetch_1["default"](ccAPI)];
                     case 1: return [4 /*yield*/, (_a.sent()).json()];
                     case 2:
                         res = _a.sent();
                         return [2 /*return*/, {
                                 title: 'ETH',
-                                x: res.Data.map(function (btc) { return new Date(btc.time * 1000); }),
+                                x: res.Data.map(function (btc) { return new Date(btc.time * 1000).toTimeString().substr(0, 8); }),
                                 y: res.Data.map(function (btc) { return btc.close; })
                             }];
                 }

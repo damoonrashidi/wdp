@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var blessed = require("blessed");
-var box = blessed.box({
+exports.techBox = blessed.box({
     name: 'tech',
     top: '75%',
     left: '0',
@@ -19,4 +19,3 @@ var box = blessed.box({
         focus: { border: { fg: '#f00' } }
     }
 });
-exports["default"] = box;

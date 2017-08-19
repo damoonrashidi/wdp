@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var blessed = require("blessed");
-exports["default"] = blessed.box({
+exports.redditBox = blessed.box({
     name: 'reddit',
     top: '0',
     left: '0',
