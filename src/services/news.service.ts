@@ -61,12 +61,12 @@ export class NewsService {
   }
 
   async crypto (): Promise<Crypto> {
-    let ccAPI = `https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=60&aggregate=3&e=CCCAGG`;
+    let ccAPI = `https://min-api.cryptocompare.com/data/histoday?fsym=NXT&tsym=USD&limit=60&aggregate=3&e=CCCAGG`;
     let res = await (await fetch(ccAPI)).json();
     return {
-      title: 'ETH',
-      x: res.Data.map(btc => new Date(btc.time * 1000).toTimeString().substr(0,8)),
-      y: res.Data.map(btc => btc.close),
+      title: 'NXT',
+      x: res.Data.map(cc => new Date(cc.time * 1000).toDateString().substr(0,10)),
+      y: res.Data.map(cc => cc.close),
     };
   }
 

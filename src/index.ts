@@ -4,7 +4,6 @@ let screen = blessed.screen({smartCSR: true});
 screen.title = `Waddup!?`;
 import * as contrib from 'blessed-contrib';
 import * as cp from 'child_process';
-import { spawn } from 'threads';
 import { NewsArticle, NewsService } from './services/news.service';
 import {
   redditBox,
@@ -23,7 +22,6 @@ const boxes = [
   { name: 'tech', box: techBox, data: ns.tech, },
   { name: 'news', box: newsBox, data: ns.news, },
 ]
-
 
 async function initialRender (): Promise<any> {
   for (let box of boxes) {

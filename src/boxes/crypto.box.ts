@@ -12,5 +12,5 @@ export const cryptoGraph = contrib.line({
   top: '50%',
   width: '50%',
   height: '50%',
-  label: 'ETH in USD'
+  label: 'NXT in USD'
 });

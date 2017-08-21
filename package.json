@@ -7,8 +7,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "tsc ./src/index.tsx --outDir ./dist --watch",
-    "build": "tsc ./src/index.tsx --outDir ./dist"
+    "start": "tsc ./src/index.ts --outDir ./dist --watch",
+    "build": "tsc ./src/index.ts --outDir ./dist"
   },
   "devDependencies": {
     "@types/blessed": "^0.1.5",

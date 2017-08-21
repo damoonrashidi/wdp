@@ -17,7 +17,5 @@ Scroll through the boxes to find an item you want to read, click to select / ope
 
 ## Things I'm working on
 
-* ~Faster initial render, the HTTP requests clog up the pipe. Stagger the requests so that first paint can come as soon as first request is done~
 * Arrow keys to navigate, return to select item, N/P to jump between boxes
-* ~Some hacker news items won't open.. Fun bug!~
-* Do something more useful/fun with the ETH/USD graph
+* Do something more useful/fun with the NXT/USD graph

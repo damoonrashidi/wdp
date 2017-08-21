@@ -134,15 +134,15 @@ var NewsService = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        ccAPI = "https://min-api.cryptocompare.com/data/histohour?fsym=ETH&tsym=USD&limit=60&aggregate=3&e=CCCAGG";
+                        ccAPI = "https://min-api.cryptocompare.com/data/histoday?fsym=NXT&tsym=USD&limit=60&aggregate=3&e=CCCAGG";
                         return [4 /*yield*/, node_fetch_1["default"](ccAPI)];
                     case 1: return [4 /*yield*/, (_a.sent()).json()];
                     case 2:
                         res = _a.sent();
                         return [2 /*return*/, {
-                                title: 'ETH',
-                                x: res.Data.map(function (btc) { return new Date(btc.time * 1000).toTimeString().substr(0, 8); }),
-                                y: res.Data.map(function (btc) { return btc.close; })
+                                title: 'NXT',
+                                x: res.Data.map(function (cc) { return new Date(cc.time * 1000).toDateString().substr(0, 10); }),
+                                y: res.Data.map(function (cc) { return cc.close; })
                             }];
                 }
             });
