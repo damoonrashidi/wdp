@@ -40,7 +40,7 @@ var blessed = require("blessed");
 var screen = blessed.screen({ smartCSR: true });
 screen.title = "Waddup!?";
 var contrib = require("blessed-contrib");
-var cp = require("child_process");
+var opn = require("opn");
 var news_service_1 = require("./services/news.service");
 var _1 = require("./boxes/");
 var crypto;
@@ -89,7 +89,7 @@ function renderBox(items, box, name) {
     list.on('select', function (item) {
         var article = items[list.getItemIndex(item)];
         try {
-            cp.exec("open -a \"Google Chrome\" " + article.url);
+            opn(article.url);
         }
         catch (e) {
             /**

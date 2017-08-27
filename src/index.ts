@@ -3,7 +3,7 @@ import * as blessed from 'blessed';
 let screen = blessed.screen({smartCSR: true});
 screen.title = `Waddup!?`;
 import * as contrib from 'blessed-contrib';
-import * as cp from 'child_process';
+import * as opn from 'opn';
 import { NewsArticle, NewsService } from './services/news.service';
 import {
   redditBox,
@@ -47,7 +47,7 @@ function renderBox(items: NewsArticle[], box: blessed.Widgets.BoxElement, name: 
   list.on('select', (item) => {
     let article = items[list.getItemIndex(item)];
     try {
-      cp.exec(`open -a "Google Chrome" ${article.url}`);
+      opn(article.url);
     } catch (e) {
       /**
        * Could not get url for this list item.. weird.. 
