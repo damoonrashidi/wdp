@@ -61,7 +61,7 @@ export class NewsService {
   }
 
   async crypto (): Promise<Crypto> {
-    let ccAPI = `https://min-api.cryptocompare.com/data/histoday?fsym=NXT&tsym=USD&limit=60&aggregate=3&e=CCCAGG`;
+    let ccAPI = `https://min-api.cryptocompare.com/data/histoday?fsym=ETH&tsym=USD&limit=60&aggregate=3&e=CCCAGG`;
     let res = await (await fetch(ccAPI)).json();
     return {
       title: 'NXT',
