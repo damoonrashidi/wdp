@@ -2,7 +2,7 @@
 Waddup is a tool to get an aggregated developer news feed to the command line so it's available as a quick 5min update during your day.
 
 ## Installation
-`yarn add --global wdp`
+`yarn global add wdp`
 
 or
 
